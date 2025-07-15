@@ -3,18 +3,16 @@
 	"name": "hopperclip-backend",
 	"main": "src/index.ts",
 	"compatibility_date": "2025-07-14",
-	// "compatibility_flags": [
-	//   "nodejs_compat"
-	// ],
-	// "vars": {
-	//   "MY_VAR": "my-variable"
-	// },
-	// "kv_namespaces": [
-	//   {
-	//     "binding": "MY_KV_NAMESPACE",
-	//     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-	//   }
-	// ],
+	"vars": {
+		"ENVIRONMENT": "development"
+	},
+	"env": {
+		"production": {
+			"vars": {
+				"ENVIRONMENT": "production"
+			}
+		}
+	},
 	"r2_buckets": [
 		{
 			"binding": "hopperclip-dev",
@@ -25,16 +23,6 @@
 			"bucket_name": "hopperclip-prod"
 		}
 	],
-	// "d1_databases": [
-	//   {
-	//     "binding": "MY_DB",
-	//     "database_name": "my-database",
-	//     "database_id": ""
-	//   }
-	// ],
-	// "ai": {
-	//   "binding": "AI"
-	// },
 	"observability": {
 		"enabled": true,
 		"head_sampling_rate": 1
