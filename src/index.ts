@@ -47,8 +47,13 @@ app.get("/:bucket", async (c) => {
 		return c.text("hello from development");
 
 	} else {
-		return c.text("hello from production");
+		return c.text("hello from production!");
 	}
+})
+
+app.get("/:bucket/:key", async (c) => {
+
+	return c.text("hello from production!");
 })
 
 export default app;
