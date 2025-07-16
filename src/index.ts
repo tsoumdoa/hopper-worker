@@ -1,23 +1,40 @@
 import { Hono } from "hono";
+import { importSPKI, jwtVerify } from "jose";
+import { cors } from 'hono/cors'
+import { validatePayload } from "./utis/validate-payload";
+import { Payload } from "./utis/types";
 
 const app = new Hono<{
 	Bindings: Cloudflare.Env;
 }>();
 
+app.use(
+	'/*',
+	cors({
+		origin: ["http://localhost:3000"],
+		allowHeaders: ["content-encoding", "content-length", "content-type", "authorization"],
+		allowMethods: ['POST'],
+		exposeHeaders: ['content-length'],
+		maxAge: 30,
+		credentials: true,
+	})
+)
+
 app.post("/", async (c) => {
 	const env = c.env;
 	const isDev = env.ENVIRONMENT === "development";
+	const bucket = isDev ? c.env.hopperclip_dev : c.env.hopperclip_prod;
 
+	const token = c.req.header('Authorization')?.split(' ')[1] ?? "";
 
-
-	const authToken = c.req.header("authorization");
-	if (!authToken) {
+	if (!token) {
 		return c.json({
 			success: false,
 			message: "Authorization header is missing.",
 			code: 400,
 		});
 	}
+
 
 	const contentLength = c.req.header("content-length");
 	const bodyArrayBuffer = await c.req.arrayBuffer();
@@ -31,29 +48,55 @@ app.post("/", async (c) => {
 	}
 
 
+	const secret = env.JWT_PUBLIC_KEY.replace(/\\n/g, "\n");
+	const publicKey = await importSPKI(secret, "RS256");
 
-	return c.json({
-		success: true,
-		message: "Upload to R2 successfully",
-		code: 200,
-	});
+	try {
+		const verified = await jwtVerify(token, publicKey, {
+			issuer: env.JWT_ISSUER,
+			audience: env.JWT_AUDIENCE,
+		});
+
+		const payload = verified.payload as Payload;
+		const isValid = validatePayload(payload, env.JWT_ISSUER, env.JWT_AUDIENCE);
+
+		if (!isValid) {
+			console.log("received req without valid token");
+			return c.json({
+				success: false,
+				message: "Invalid token",
+				code: 400,
+			});
+		}
+		const bucketName = `${payload.userId}/${payload.postId}`;
+
+		await bucket.put(bucketName, bodyArrayBuffer).then((res) => {
+			if (res?.size !== bodyArrayBuffer.byteLength) {
+				return c.json({
+					success: false,
+					message: "Failed to upload to R2",
+					code: 500,
+				});
+			}
+		});
+
+		return c.json({
+			success: true,
+			message: "Upload to R2 successfully",
+			code: 200,
+		});
+	} catch (e) {
+		console.log(e);
+		return c.json({
+			success: false,
+			message: "Invalid token",
+			code: 400,
+		});
+	}
+
 });
 
 
-app.get("/:bucket", async (c) => {
-	const isDev = c.env.ENVIRONMENT === "development";
-	console.log(isDev);
-	if (isDev) {
-		return c.text("hello from development");
-
-	} else {
-		return c.text("hello from production!");
-	}
-})
-
-app.get("/:bucket/:key", async (c) => {
-
-	return c.text("hello from production!");
-})
 
 export default app;
+
