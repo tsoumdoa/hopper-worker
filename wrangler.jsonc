@@ -21,12 +21,12 @@
 	},
 	"r2_buckets": [
 		{
-			"binding": "hopperclip_dev",
+			"binding": "development",
 			"bucket_name": "hopperclip-dev",
 			"experimental_remote": true,
 		},
 		{
-			"binding": "hopperclip_prod",
+			"binding": "production",
 			"bucket_name": "hopperclip-prod"
 		}
 	],
