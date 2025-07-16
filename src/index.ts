@@ -11,7 +11,7 @@ const app = new Hono<{
 app.use(
 	'/*',
 	cors({
-		origin: ["http://localhost:3000"],
+		origin: ["http://localhost:3000", "https://www.hopperclip.com"],
 		allowHeaders: ["content-encoding", "content-length", "content-type", "authorization"],
 		allowMethods: ['POST'],
 		exposeHeaders: ['content-length'],
