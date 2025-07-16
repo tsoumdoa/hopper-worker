@@ -22,8 +22,9 @@ app.use(
 
 app.post("/", async (c) => {
 	const env = c.env;
-	const isDev = env.ENVIRONMENT === "development";
-	const bucket = isDev ? c.env.hopperclip_dev : c.env.hopperclip_prod;
+	// const isDev = env.ENVIRONMENT === "development";
+	// const bucket = isDev ? c.env.hopperclip_dev : c.env.hopperclip_prod;
+	const bucket = c.env.hopperclip_prod;
 
 	const token = c.req.header('Authorization')?.split(' ')[1] ?? "";
 
@@ -72,7 +73,6 @@ app.post("/", async (c) => {
 		console.log("received req with valid token");
 		const bucketName = `${payload.userId}/${payload.postId}`;
 		console.log("uplaoding to bucket: ", bucketName);
-		console.log(bucket)
 		await bucket.put(bucketName, bodyArrayBuffer).then((res) => {
 			if (res?.size !== bodyArrayBuffer.byteLength) {
 				return c.json({
