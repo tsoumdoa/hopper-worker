@@ -72,6 +72,7 @@ app.post("/", async (c) => {
 		console.log("received req with valid token");
 		const bucketName = `${payload.userId}/${payload.postId}`;
 		console.log("uplaoding to bucket: ", bucketName);
+		console.log(bucket)
 		await bucket.put(bucketName, bodyArrayBuffer).then((res) => {
 			if (res?.size !== bodyArrayBuffer.byteLength) {
 				return c.json({
