@@ -21,11 +21,11 @@
 	},
 	"r2_buckets": [
 		{
-			"binding": "development",
+			"binding": "DEV_BUCKET",
 			"bucket_name": "hopperclip-dev",
 		},
 		{
-			"binding": "production",
+			"binding": "PROD_BUCKET",
 			"bucket_name": "hopperclip-prod"
 		}
 	],
