@@ -4,8 +4,14 @@ import { cors } from 'hono/cors'
 import { validatePayload } from "./utis/validate-payload";
 import { Payload } from "./utis/types";
 
+type Bindings = Cloudflare.Env & {
+	DEV_BUCKET: R2Bucket;
+	PROD_BUCKET: R2Bucket;
+}
+
+
 const app = new Hono<{
-	Bindings: Cloudflare.Env;
+	Bindings: Bindings;
 }>();
 
 app.use(
@@ -68,7 +74,6 @@ app.post("/", async (c) => {
 		}
 
 		console.log("received req with valid token");
-		console.log("request env: ", payload.env);
 		const bucket = payload.env === "development" ? env.DEV_BUCKET : env.PROD_BUCKET;
 		const bucketName = `${payload.userId}/${payload.postId}`;
 		console.log("uplaoding to bucket: ", bucketName);
