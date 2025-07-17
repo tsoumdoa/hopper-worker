@@ -9,16 +9,6 @@
 		"JWT_ISSUER": "hopperclip",
 		"JWT_AUDIENCE": "https://www.hopperclip.com/"
 	},
-	"env": {
-		"production": {
-			"vars": {
-				"ENVIRONMENT": "production",
-				"JWT_PUBLIC_KEY": "-----BEGIN PUBLIC KEY----- MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1pjx04OQKBVOuIv5gwb/ RWw0SWq2hmXUbBxBphHAKhMqXmZrsvqdonV/FVgSC2WDhwxEq/MT3w5LW+IeTfMg HJrCrhgA4Bt3tH22zmBMbyvSGawDcisRiinW9l2iqqVniu1NTJV5CPtCF+DFbnz4 NvGqPsN2WZV/QwpJ/BI0giEQI2B/HDVVAAdTD1+DQWpvVg0ZdHM1q0cq+JzlKr7V 7cz/yO9NDPX8fkxJp6oleUra3boVGSDyLQJYcUyG2Y/K8+Q/DjAePyRA7KUUTY2K T4mXI154dxhcMom9bw+sIir9Bs1g+6ishHSJvEOkw5Sma1ha0h0LKSPn8J9XR+j1 +QIDAQAB -----END PUBLIC KEY-----",
-				"JWT_ISSUER": "hopperclip",
-				"JWT_AUDIENCE": "https://www.hopperclip.com/"
-			}
-		}
-	},
 	"r2_buckets": [
 		{
 			"binding": "DEV_BUCKET",
@@ -32,5 +22,25 @@
 	"observability": {
 		"enabled": true,
 		"head_sampling_rate": 1
-	}
+	},
+	"env": {
+		"production": {
+			"vars": {
+				"ENVIRONMENT": "production",
+				"JWT_PUBLIC_KEY": "-----BEGIN PUBLIC KEY----- MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1pjx04OQKBVOuIv5gwb/ RWw0SWq2hmXUbBxBphHAKhMqXmZrsvqdonV/FVgSC2WDhwxEq/MT3w5LW+IeTfMg HJrCrhgA4Bt3tH22zmBMbyvSGawDcisRiinW9l2iqqVniu1NTJV5CPtCF+DFbnz4 NvGqPsN2WZV/QwpJ/BI0giEQI2B/HDVVAAdTD1+DQWpvVg0ZdHM1q0cq+JzlKr7V 7cz/yO9NDPX8fkxJp6oleUra3boVGSDyLQJYcUyG2Y/K8+Q/DjAePyRA7KUUTY2K T4mXI154dxhcMom9bw+sIir9Bs1g+6ishHSJvEOkw5Sma1ha0h0LKSPn8J9XR+j1 +QIDAQAB -----END PUBLIC KEY-----",
+				"JWT_ISSUER": "hopperclip",
+				"JWT_AUDIENCE": "https://www.hopperclip.com/"
+			},
+			"r2_buckets": [
+				{
+					"binding": "DEV_BUCKET",
+					"bucket_name": "hopperclip-dev",
+				},
+				{
+					"binding": "PROD_BUCKET",
+					"bucket_name": "hopperclip-prod"
+				}
+			],
+		},
+	},
 }
