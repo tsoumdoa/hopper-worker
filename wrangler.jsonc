@@ -40,7 +40,8 @@
 					"binding": "PROD_BUCKET",
 					"bucket_name": "hopperclip-prod"
 				}
-			],"name": "hopperclip-backend",
+			],
+			"name": "hopperclip-backend",
 		},
 	},
 }
