@@ -23,7 +23,6 @@
 		{
 			"binding": "development",
 			"bucket_name": "hopperclip-dev",
-			"experimental_remote": true,
 		},
 		{
 			"binding": "production",
