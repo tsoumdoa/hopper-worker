@@ -7,4 +7,5 @@ export type Payload = {
 	iss: string;
 	aud: string;
 	exp: number;
+	isDev: "development" | "production";
 }
