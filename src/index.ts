@@ -73,15 +73,15 @@ app.post("/", async (c) => {
 		const bucketName = `${payload.userId}/${payload.postId}`;
 		console.log("uplaoding to bucket: ", bucketName);
 		const blob = await c.req.blob();
-		await bucket.put(bucketName, blob).then((res) => {
-			if (res?.size !== bodyArrayBuffer.byteLength) {
-				return c.json({
-					success: false,
-					message: "Failed to upload to R2",
-					code: 500,
-				});
-			}
-		});
+		const resBucket = await bucket.put(bucketName, blob);
+
+		if (resBucket?.size !== bodyArrayBuffer.byteLength) {
+			return c.json({
+				success: false,
+				message: "Failed to upload to R2",
+				code: 500,
+			});
+		};
 
 		return c.json({
 			success: true,
