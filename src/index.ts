@@ -22,9 +22,8 @@ app.use(
 
 app.post("/", async (c) => {
 	const env = c.env;
-	// const isDev = env.ENVIRONMENT === "development";
-	// const bucket = isDev ? c.env.hopperclip_dev : c.env.hopperclip_prod;
-	const bucket = c.env.production;
+	const isDev = env.ENVIRONMENT === "development";
+	const bucket = isDev ? c.env.development : c.env.production;
 
 	const token = c.req.header('Authorization')?.split(' ')[1] ?? "";
 
