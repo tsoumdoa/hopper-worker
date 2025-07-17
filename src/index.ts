@@ -68,8 +68,8 @@ app.post("/", async (c) => {
 		}
 
 		console.log("received req with valid token");
-		console.log("request env: ", payload.isDev);
-		const bucket = payload.isDev === "development" ? env.development : env.production;
+		console.log("request env: ", payload.env);
+		const bucket = payload.env === "development" ? env.development : env.production;
 		const bucketName = `${payload.userId}/${payload.postId}`;
 		console.log("uplaoding to bucket: ", bucketName);
 		const blob = await c.req.blob();
